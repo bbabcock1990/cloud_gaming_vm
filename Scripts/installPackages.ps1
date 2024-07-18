@@ -2,7 +2,7 @@
 # Define the URL for the Steam installer
 $steamInstallerUrl = "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"
 # Define the path where the installer will be downloaded
-$installerPath = "$env:TEMP\SteamSetup.exe"
+$installerPath = "$env:USERPROFILE\Downloads\SteamSetup.exe"
 # Download the Steam installer
 Invoke-WebRequest -Uri $steamInstallerUrl -OutFile $installerPath
 # Run the installer silently
@@ -15,7 +15,7 @@ Remove-Item -Path $installerPath
 # Define the URL for the Sunshine installer
 $sunshineInstallerUrl = "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe"
 # Define the path where the installer will be downloaded
-$installerPath = "$env:TEMP\sunshine-windows-installer.exe"
+$installerPath = "$env:USERPROFILE\Downloads\sunshine-windows-installer.exe"
 # Download the Sunshine installer
 Invoke-WebRequest -Uri $sunshineInstallerUrl -OutFile $installerPath
 # Run the installer silently

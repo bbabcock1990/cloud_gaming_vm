@@ -98,17 +98,20 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
   }
 }
 
-resource runCommand 'Microsoft.Compute/virtualMachines/runCommands@2024-03-01' = {
-  name: '${name}-script'
-  location: az.resourceGroup().location
+resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2024-03-01' = {
+  name: 'CustomScriptExtension'
   parent: vm
   properties: {
-    source: {
-      scriptUri: 'https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/installPackages.ps1'
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.10'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: [
+        'https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/installPackages.ps1'
+      ]
+      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File installPackages.ps1'
     }
-    asyncExecution: false
-    runAsUser: adminUsername
-    runAsPassword: adminPassword
   }
 }
 

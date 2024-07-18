@@ -23,3 +23,16 @@ Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
 Remove-Item -Path $installerPath
 
+
+#Install Parsec Virtual Display Driver
+# Define the URL for the Parsec
+$parsecInstallerUrl = "https://github.com/nomi-san/parsec-vdd/releases/latest/download/ParsecVDisplay-v0.45-setup.exe"
+# Define the path where the installer will be downloaded
+$installerPath = "$env:USERPROFILE\Downloads\ParsecVDisplay-v0.45-setup.exe"
+# Download the Sunshine installer
+Invoke-WebRequest -Uri $parsecInstallerUrl -OutFile $installerPath
+# Run the installer silently
+Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
+# Remove the installer after installation
+Remove-Item -Path $installerPath
+

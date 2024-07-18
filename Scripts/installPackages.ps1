@@ -18,20 +18,20 @@ $sunshineInstallerUrl = "https://github.com/LizardByte/Sunshine/releases/latest/
 # Download the Sunshine installer
 Invoke-WebRequest -Uri $sunshineInstallerUrl -OutFile 'sunshine-windows-installer.exe'
 # Run the installer silently
-Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
+Start-Process -FilePath 'sunshine-windows-installer.exe' -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
-Remove-Item -Path $installerPath
+Remove-Item -Path 'sunshine-windows-installer.exe'
 
 
-<# #Install Parsec Virtual Display Driver
+#Install Parsec Virtual Display Driver
 # Define the URL for the Parsec
 $parsecInstallerUrl = "https://github.com/nomi-san/parsec-vdd/releases/latest/download/ParsecVDisplay-v0.45-setup.exe"
 # Download the Sunshine installer
 Invoke-WebRequest -Uri $parsecInstallerUrl -OutFile 'ParsecVDisplay-v0.45-setup.exe'
 # Run the installer silently
-Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
+Start-Process -FilePath 'ParsecVDisplay-v0.45-setup.exe' -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
-Remove-Item -Path $installerPath
+Remove-Item -Path 'ParsecVDisplay-v0.45-setup.exe'
 
 
 #Install TigerVNC Server
@@ -39,6 +39,6 @@ Remove-Item -Path $installerPath
 $tigerInstallerUrl = "https://phoenixnap.dl.sourceforge.net/project/tigervnc/stable/1.13.1/tigervnc64-winvnc-1.13.1.exe?viasf=1"
 Invoke-WebRequest -Uri $tigerInstallerUrl -OutFile 'tigervnc64-winvnc-1.13.1.exe'
 # Run the installer silently
-Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
+Start-Process -FilePath 'tigervnc64-winvnc-1.13.1.exe' -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
-Remove-Item -Path $installerPath #>
+Remove-Item -Path 'tigervnc64-winvnc-1.13.1.exe'

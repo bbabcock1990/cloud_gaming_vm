@@ -22,23 +22,22 @@ Start-Process -FilePath 'sunshine-windows-installer.exe' -ArgumentList "/S" -NoN
 # Remove the installer after installation
 Remove-Item -Path 'sunshine-windows-installer.exe'
 
+# Define variables
+$sunshineConfigZip = "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip"  # URL of the ZIP file
 
-#Install Parsec Virtual Display Driver
-# Define the URL for the Parsec
-$parsecInstallerUrl = "https://github.com/nomi-san/parsec-vdd/releases/latest/download/ParsecVDisplay-v0.45-setup.exe"
-# Download the Sunshine installer
-Invoke-WebRequest -Uri $parsecInstallerUrl -OutFile 'ParsecVDisplay-v0.45-setup.exe'
-# Run the installer silently
-Start-Process -FilePath 'ParsecVDisplay-v0.45-setup.exe' -ArgumentList "/S" -NoNewWindow -Wait
-# Remove the installer after installation
-Remove-Item -Path 'ParsecVDisplay-v0.45-setup.exe'
+# Download the ZIP file
+Invoke-WebRequest -Uri $sunshineConfigZip -OutFile 'config.zip'
 
+# Extract the ZIP file
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::ExtractToDirectory('config.zip', '')
 
-#Install TigerVNC Server
-# Define the URL for the TigerVNC
-$tigerInstallerUrl = "https://phoenixnap.dl.sourceforge.net/project/tigervnc/stable/1.13.1/tigervnc64-winvnc-1.13.1.exe?viasf=1"
-Invoke-WebRequest -Uri $tigerInstallerUrl -OutFile 'tigervnc64-winvnc-1.13.1.exe'
-# Run the installer silently
-Start-Process -FilePath 'tigervnc64-winvnc-1.13.1.exe' -ArgumentList "/S" -NoNewWindow -Wait
-# Remove the installer after installation
-Remove-Item -Path 'tigervnc64-winvnc-1.13.1.exe'
+# Copy the extracted files to the destination folder, overwriting existing files
+Copy-Item -Path "\*" -Destination 'C:\Program Files\Sunshine\config' -Recurse -Force
+
+# Clean up: Remove the downloaded ZIP file and extracted files
+Remove-Item -Path $zipPath
+Remove-Item -Path $extractPath -Recurse
+
+#Start Sunshine
+Start-Process -FilePath "C:\Program Files\Sunshine\sunshine.exe"

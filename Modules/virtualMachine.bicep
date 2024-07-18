@@ -100,6 +100,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
 
 resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2024-03-01' = {
   name: 'CustomScriptExtension'
+  location: az.resourceGroup().location
   parent: vm
   properties: {
     publisher: 'Microsoft.Compute'

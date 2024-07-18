@@ -11,27 +11,23 @@ Start-Process -FilePath 'SteamSetup.exe' -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
 Remove-Item -Path 'SteamSetup.exe'
 
-<# 
+
 #Install Sunshine
 # Define the URL for the Sunshine installer
 $sunshineInstallerUrl = "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe"
-# Define the path where the installer will be downloaded
-$installerPath = "$env:USERPROFILE\Downloads\sunshine-windows-installer.exe"
 # Download the Sunshine installer
-Invoke-WebRequest -Uri $sunshineInstallerUrl -OutFile $installerPath
+Invoke-WebRequest -Uri $sunshineInstallerUrl -OutFile 'sunshine-windows-installer.exe'
 # Run the installer silently
 Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
 Remove-Item -Path $installerPath
 
 
-#Install Parsec Virtual Display Driver
+<# #Install Parsec Virtual Display Driver
 # Define the URL for the Parsec
 $parsecInstallerUrl = "https://github.com/nomi-san/parsec-vdd/releases/latest/download/ParsecVDisplay-v0.45-setup.exe"
-# Define the path where the installer will be downloaded
-$installerPath = "$env:USERPROFILE\Downloads\ParsecVDisplay-v0.45-setup.exe"
 # Download the Sunshine installer
-Invoke-WebRequest -Uri $parsecInstallerUrl -OutFile $installerPath
+Invoke-WebRequest -Uri $parsecInstallerUrl -OutFile 'ParsecVDisplay-v0.45-setup.exe'
 # Run the installer silently
 Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
@@ -41,12 +37,8 @@ Remove-Item -Path $installerPath
 #Install TigerVNC Server
 # Define the URL for the TigerVNC
 $tigerInstallerUrl = "https://phoenixnap.dl.sourceforge.net/project/tigervnc/stable/1.13.1/tigervnc64-winvnc-1.13.1.exe?viasf=1"
-# Define the path where the installer will be downloaded
-$installerPath = "$env:USERPROFILE\Downloads\ParsecVDisplay-v0.45-setup.exe"
-# Download the Sunshine installer
-Invoke-WebRequest -Uri $tigerInstallerUrl -OutFile $installerPath
+Invoke-WebRequest -Uri $tigerInstallerUrl -OutFile 'tigervnc64-winvnc-1.13.1.exe'
 # Run the installer silently
 Start-Process -FilePath $installerPath -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
-Remove-Item -Path $installerPath
- #>
+Remove-Item -Path $installerPath #>

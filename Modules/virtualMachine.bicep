@@ -104,7 +104,7 @@ resource runCommand 'Microsoft.Compute/virtualMachines/runCommands@2024-03-01' =
   parent: vm
   properties: {
     source: {
-      scriptUri: 'www.google.com'
+      scriptUri: 'https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/installPackages.ps1'
     }
     asyncExecution: false
     runAsUser: adminUsername

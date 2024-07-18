@@ -4,7 +4,9 @@ targetScope = 'subscription'
 // Parameters used during deployment
 param namePrefix string
 param region string
-param clientIP string
+
+// Variables used during deployment
+var clientIP = reference('https://api.ipify.org?format=json').ip
 
 // Deploy the resource group
 module resourceGroup 'Modules/resourceGroup.bicep' = {

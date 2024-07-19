@@ -6,7 +6,7 @@ param namePrefix string
 param region string
 
 // Variables used during deployment
-var clientIP = reference('https://api.ipify.org?format=json').ip
+var clientIP = '208.38.230.11/32'
 
 // Deploy the resource group
 module resourceGroup 'Modules/resourceGroup.bicep' = {

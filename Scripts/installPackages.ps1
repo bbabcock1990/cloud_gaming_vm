@@ -30,7 +30,7 @@ Invoke-WebRequest -Uri $sunshineConfigZip -OutFile 'C:\Temp\config.zip'
 
 # Extract the ZIP file
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory('config.zip', 'C:\temp\') #Need to fix.
+[System.IO.Compression.ZipFile]::ExtractToDirectory('config.zip', 'C:\Temp') #Need to fix.
 
 # Copy the extracted files to the destination folder, overwriting existing files
 Copy-Item -Path "C:\Temp\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force

@@ -26,18 +26,19 @@ Remove-Item -Path 'sunshine-windows-installer.exe'
 $sunshineConfigZip = "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip"  # URL of the ZIP file
 
 # Download the ZIP file
-Invoke-WebRequest -Uri $sunshineConfigZip -OutFile 'C:\Temp\config.zip'
+Invoke-WebRequest -Uri $sunshineConfigZip -OutFile 'config.zip'
 
 # Extract the ZIP file
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory('config.zip', 'C:\Temp') #Need to fix.
 
 # Copy the extracted files to the destination folder, overwriting existing files
-Copy-Item -Path "C:\Temp\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force
+Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force
 
-# Clean up: Remove the downloaded ZIP file and extracted files
-Remove-Item -Path $zipPath
-Remove-Item -Path $extractPath -Recurse
+# Clean up
+Remove-Item -Path 'config.zip'
+Remove-Item -Path 'C:\Temp' -Recurse
 
 #Start Sunshine
-#Start-Process -FilePath "C:\Program Files\Sunshine\sunshine.exe"
+Set-location -Path 'C:\Program Files\Sunshine'
+.\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'

@@ -1,6 +1,8 @@
 #This leverages the run command on the VM itself. 90 minute timeout.
 
 #Download Files
+#Speed up downloads by removing the "progress bars"
+$ProgressPreference = 'SilentlyContinue'
 
 $urls = @(
 "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe",
@@ -25,15 +27,12 @@ foreach ($url in $urls) {
     # Define the full path to the downloaded file
     $filePath = Join-Path -Path $downloadDir -ChildPath $fileName
     # Download the file
-    Invoke-WebRequest -Uri $url -OutFile $filePath
-    # Install the file
-    if (($fileName -ne "config.zip") -or ($fileName -ne "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe")) {
-        Start-Process -FilePath $filePath -ArgumentList "/S /silent" -Wait
-    }
-   
+    Invoke-WebRequest -Uri $url -OutFile $filePath  
 }
 
-Start-Sleep -Seconds 30
+Start-Process -FilePath "C:\Temp\SteamSetup.exe" -ArgumentList "/S" -Wait
+Start-Process -FilePath "C:\Temp\sunshine-windows-installer.exe" -ArgumentList "/S" -Wait
+Start-Process -FilePath "C:\Temp\ParsecVDisplay-v0.45-setup.exe" -ArgumentList "/silent" -Wait
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 
 # Extract the Sunshine config ZIP file

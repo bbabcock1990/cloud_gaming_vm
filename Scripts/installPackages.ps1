@@ -1,25 +1,42 @@
 #This leverages the run command on the VM itself. 90 minute timeout.
 
-#Install Steam
-# Define the URL for the Steam installer
-$steamInstallerUrl = "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"
-# Download the Steam installer
-Invoke-WebRequest -Uri $steamInstallerUrl -OutFile 'SteamSetup.exe'
-# Run the installer silently
-Start-Process -FilePath 'SteamSetup.exe' -ArgumentList "/S" -NoNewWindow -Wait
-# Remove the installer after installation
-Remove-Item -Path 'SteamSetup.exe'
+#Download Files
 
-#Install Sunshine
-# Define the URL for the Sunshine installer
-$sunshineInstallerUrl = "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe"
-# Download the Sunshine installer
-Invoke-WebRequest -Uri $sunshineInstallerUrl -OutFile 'sunshine-windows-installer.exe'
-# Run the installer silently
-Start-Process -FilePath 'sunshine-windows-installer.exe' -ArgumentList "/S" -NoNewWindow -Wait
-# Remove the installer after installation
-Remove-Item -Path 'sunshine-windows-installer.exe'
+$downloadURLs = @(
+"https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe",
+"https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe",
+"https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",
+"https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
+"https://go.microsoft.com/fwlink/?linkid=2248541"
+)
 
+# Define the download directory
+$downloadDir = "C:\Temp"
+
+# Create the download directory if it doesn't exist
+if (-not (Test-Path -Path $downloadDir)) {
+    New-Item -ItemType Directory -Path $downloadDir
+}
+
+# Loop through each URL
+foreach ($url in $urls) {
+    # Extract the file name from the URL
+    $fileName = [System.IO.Path]::GetFileName($url)
+    
+    # Define the full path to the downloaded file
+    $filePath = Join-Path -Path $downloadDir -ChildPath $fileName
+    
+    # Download the file
+    Invoke-WebRequest -Uri $url -OutFile $filePath
+    
+    # Define the arguments for silent installation
+    $arguments = "/silent"
+    
+    # Run the installer with the specified arguments
+    Start-Process -FilePath $filePath -ArgumentList $arguments -Wait -NoNewWindow
+}
+
+<# 
 # Define variables
 $sunshineConfigZip = "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip"  # URL of the ZIP file
 
@@ -36,48 +53,4 @@ Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\confi
 # Clean up
 Remove-Item -Path 'config.zip'
 Remove-Item -Path 'C:\Temp' -Recurse
-
-
-
-#Install Parsec
-# Define the URL for the Parsec Virtual Driver installer
-$driverUrl = "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe"
-$driverPath = "C:\ParsecVirtualDriver.exe"
-$configFilePath = "C:\parsec_config.txt"
-
-# Download the Parsec Virtual Driver installer
-Invoke-WebRequest -Uri $driverUrl -OutFile $driverPath
-
-# Create the configuration file
-$configContent = @"
-virtual_monitor_width=1920
-virtual_monitor_height=1080
-virtual_monitor_refresh_rate=60
-"@
-Set-Content -Path $configFilePath -Value $configContent
-
-# Install the Parsec Virtual Driver silently
-Start-Process -FilePath $driverPath -ArgumentList "/S" -Wait
-
-# Apply the configuration file
-Copy-Item -Path $configFilePath -Destination "C:\Program Files\Parsec\config.txt" -Force
-
-
-
-#Install AMD Drivers
-# Define the URL for the AMD GPU driver
-$driverUrl = "https://go.microsoft.com/fwlink/?linkid=2248541"
-
-# Download the AMD GPU driver
-Invoke-WebRequest -Uri $driverUrl -OutFile 'AMD_GPU_Driver.exe'
-
-# Install the AMD GPU driver silently
-Start-Process -FilePath 'AMD_GPU_Driver.exe' -ArgumentList "/S" -Wait
-
-
-#Start Sunshine
-Set-location -Path 'C:\Program Files\Sunshine'
-.\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'
-
-# Reboot the VM
-Restart-Computer -Force
+ #>

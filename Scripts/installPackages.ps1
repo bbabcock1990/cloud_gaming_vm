@@ -42,3 +42,5 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 # Copy the extracted files to the destination folder, overwriting existing files
 Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force
+
+Restart-Computer -Force

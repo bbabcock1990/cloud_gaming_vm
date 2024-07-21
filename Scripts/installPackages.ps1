@@ -33,6 +33,7 @@ foreach ($url in $urls) {
    
 }
 
+Start-Sleep -Seconds 30
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 
 # Extract the Sunshine config ZIP file

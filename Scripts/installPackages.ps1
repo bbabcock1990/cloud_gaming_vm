@@ -2,7 +2,7 @@
 
 #Download Files
 
-$downloadURLs = @(
+$urls = @(
 "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe",
 "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe",
 "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",

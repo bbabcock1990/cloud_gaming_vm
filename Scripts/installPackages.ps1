@@ -41,6 +41,32 @@ Remove-Item -Path 'C:\Temp' -Recurse
 Set-location -Path 'C:\Program Files\Sunshine'
 .\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'
 
+
+#Install Parsec
+# Define the URL for the Parsec Virtual Driver installer
+$driverUrl = "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe"
+$driverPath = "C:\ParsecVirtualDriver.exe"
+$configFilePath = "C:\parsec_config.txt"
+
+# Download the Parsec Virtual Driver installer
+Invoke-WebRequest -Uri $driverUrl -OutFile $driverPath
+
+# Create the configuration file
+$configContent = @"
+virtual_monitor_width=1920
+virtual_monitor_height=1080
+virtual_monitor_refresh_rate=60
+"@
+Set-Content -Path $configFilePath -Value $configContent
+
+# Install the Parsec Virtual Driver silently
+Start-Process -FilePath $driverPath -ArgumentList "/S" -Wait
+
+# Apply the configuration file
+Copy-Item -Path $configFilePath -Destination "C:\Program Files\Parsec\config.txt" -Force
+
+
+
 #Install AMD Drivers
 # Define the URL for the AMD GPU driver
 $driverUrl = "https://go.microsoft.com/fwlink/?linkid=2248541"

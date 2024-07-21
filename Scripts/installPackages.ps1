@@ -1,6 +1,5 @@
 #This leverages the run command on the VM itself. 90 minute timeout.
 
-
 #Install Steam
 # Define the URL for the Steam installer
 $steamInstallerUrl = "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"
@@ -10,7 +9,6 @@ Invoke-WebRequest -Uri $steamInstallerUrl -OutFile 'SteamSetup.exe'
 Start-Process -FilePath 'SteamSetup.exe' -ArgumentList "/S" -NoNewWindow -Wait
 # Remove the installer after installation
 Remove-Item -Path 'SteamSetup.exe'
-
 
 #Install Sunshine
 # Define the URL for the Sunshine installer
@@ -42,3 +40,16 @@ Remove-Item -Path 'C:\Temp' -Recurse
 #Start Sunshine
 Set-location -Path 'C:\Program Files\Sunshine'
 .\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'
+
+#Install AMD Drivers
+# Define the URL for the AMD GPU driver
+$driverUrl = "https://go.microsoft.com/fwlink/?linkid=2248541"
+
+# Download the AMD GPU driver
+Invoke-WebRequest -Uri $driverUrl -OutFile 'AMD_GPU_Driver.exe'
+
+# Install the AMD GPU driver silently
+Start-Process -FilePath 'AMD_GPU_Driver.exe' -ArgumentList "/S" -Wait
+
+# Reboot the VM
+Restart-Computer -Force

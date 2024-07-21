@@ -31,6 +31,7 @@ foreach ($url in $urls) {
         Start-Process -FilePath $filePath -ArgumentList "/S /silent" -Wait
     }
     if ($fileName -eq "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe") {
+        Write-Output "made it to AMD driver"
         Start-Process -FilePath $filePath -ArgumentList "-Install" -Wait
     }
 }

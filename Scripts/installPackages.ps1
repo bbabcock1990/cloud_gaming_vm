@@ -37,9 +37,6 @@ Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\confi
 Remove-Item -Path 'config.zip'
 Remove-Item -Path 'C:\Temp' -Recurse
 
-#Start Sunshine
-Set-location -Path 'C:\Program Files\Sunshine'
-.\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'
 
 
 #Install Parsec
@@ -76,6 +73,11 @@ Invoke-WebRequest -Uri $driverUrl -OutFile 'AMD_GPU_Driver.exe'
 
 # Install the AMD GPU driver silently
 Start-Process -FilePath 'AMD_GPU_Driver.exe' -ArgumentList "/S" -Wait
+
+
+#Start Sunshine
+Set-location -Path 'C:\Program Files\Sunshine'
+.\sunshine.exe 'C:\Program Files\Sunshine\config\sunshine.conf'
 
 # Reboot the VM
 Restart-Computer -Force

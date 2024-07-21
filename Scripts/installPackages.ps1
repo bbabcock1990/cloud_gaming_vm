@@ -28,12 +28,6 @@ foreach ($url in $urls) {
     
     # Download the file
     Invoke-WebRequest -Uri $url -OutFile $filePath
-    
-    # Define the arguments for silent installation
-    $arguments = "/silent"
-    
-    # Run the installer with the specified arguments
-    Start-Process -FilePath $filePath -ArgumentList $arguments -Wait -NoNewWindow
 }
 
 <# 

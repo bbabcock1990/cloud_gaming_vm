@@ -30,11 +30,10 @@ foreach ($url in $urls) {
     if (($fileName -ne "config.zip") -or ($fileName -ne "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe")) {
         Start-Process -FilePath $filePath -ArgumentList "/S /silent" -Wait
     }
-    if ($fileName -eq "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe") {
-        Write-Output "made it to AMD driver"
-        Start-Process -FilePath $filePath -ArgumentList "-Install" -Wait
-    }
+   
 }
+
+Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 
 # Extract the Sunshine config ZIP file
 Add-Type -AssemblyName System.IO.Compression.FileSystem

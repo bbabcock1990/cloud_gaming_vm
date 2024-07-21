@@ -28,7 +28,7 @@ foreach ($url in $urls) {
     Invoke-WebRequest -Uri $url -OutFile $filePath
     # Install the file
     if ($fileName -ne "config.zip") {
-        Start-Process -FilePath $filePath -ArgumentList "/silent"
+        Start-Process -FilePath $filePath -ArgumentList "/S /silent" -Wait
     }
 }
 

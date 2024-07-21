@@ -27,8 +27,11 @@ foreach ($url in $urls) {
     # Download the file
     Invoke-WebRequest -Uri $url -OutFile $filePath
     # Install the file
-    if ($fileName -ne "config.zip") {
+    if (($fileName -ne "config.zip") -or ($fileName -ne "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe")) {
         Start-Process -FilePath $filePath -ArgumentList "/S /silent" -Wait
+    }
+    if ($fileName -eq "amd-software-cloud-edition-23.q3-azure-ngads-v620.exe") {
+        Start-Process -FilePath $filePath -ArgumentList "-Install" -Wait
     }
 }
 

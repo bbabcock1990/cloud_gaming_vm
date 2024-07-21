@@ -6,7 +6,7 @@ $urls = @(
 "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe",
 "https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe",
 "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",
-#"https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
+"https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
 "https://go.microsoft.com/fwlink/?linkid=2248541"
 )
 

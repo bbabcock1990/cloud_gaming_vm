@@ -19,14 +19,27 @@ if (-not (Test-Path -Path $downloadDir)) {
     New-Item -ItemType Directory -Path $downloadDir -Force
 }
 
-# Download files
+# Function to download a file
+function Download-File {
+    param (
+        [string]$url,
+        [string]$outputPath
+    )
+    Invoke-WebRequest -Uri $url -OutFile $outputPath
+}
+
+# Start downloading files in parallel
+$jobs = @()
 foreach ($url in $urls) {
     $fileName = [System.IO.Path]::GetFileName($url)
     $filePath = Join-Path -Path $downloadDir -ChildPath $fileName
-    Invoke-WebRequest -Uri $url -OutFile $filePath
+    $jobs += Start-Job -ScriptBlock { param($url, $filePath) Download-File -url $url -outputPath $filePath } -ArgumentList $url, $filePath
 }
 
-# Start the installs for the required client applications
+# Wait for all download jobs to complete
+$jobs | ForEach-Object { Receive-Job -Job $_ -Wait }
+
+# Start the installs for the required client applications in parallel
 $installers = @(
     @{ Path = "C:\Temp\SteamSetup.exe"; Args = "/S" },
     @{ Path = "C:\Temp\sunshine-windows-installer.exe"; Args = "/S" },
@@ -34,9 +47,13 @@ $installers = @(
     @{ Path = "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe"; Args = "-Install" }
 )
 
+$installJobs = @()
 foreach ($installer in $installers) {
-    Start-Process -FilePath $installer.Path -ArgumentList $installer.Args -Wait
+    $installJobs += Start-Job -ScriptBlock { param($Path, $Args) Start-Process -FilePath $Path -ArgumentList $Args -Wait } -ArgumentList $installer.Path, $installer.Args
 }
+
+# Wait for all install jobs to complete
+$installJobs | ForEach-Object { Receive-Job -Job $_ -Wait }
 
 # Extract the Sunshine config ZIP file
 Expand-Archive -Path "$downloadDir\config.zip" -DestinationPath "$downloadDir"

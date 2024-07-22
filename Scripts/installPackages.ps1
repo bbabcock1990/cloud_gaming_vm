@@ -37,7 +37,7 @@ Start-Process -FilePath "C:\Temp\ParsecVDisplay-v0.45-setup.exe" -ArgumentList "
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 
 # Extract the Virtual Audio Drivers
-Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp'
+Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'
 
 Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "/silent" -Wait
 

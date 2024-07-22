@@ -5,8 +5,6 @@
 $ProgressPreference = 'SilentlyContinue'
 
 $urls = @(
-"https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe",
-"https://github.com/LizardByte/Sunshine/releases/latest/download/sunshine-windows-installer.exe",
 "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",
 "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
 "https://download.microsoft.com/download/9/1/e/91ed0d01-1a2c-46ad-b014-51ece3b1936c/amd-software-cloud-edition-23.q3-azure-ngads-v620.exe",
@@ -32,8 +30,8 @@ foreach ($url in $urls) {
 }
 
 # Start the installs for the required client applications
-Start-Process -FilePath "C:\Temp\SteamSetup.exe" -ArgumentList "/S" -Wait
-Start-Process -FilePath "C:\Temp\sunshine-windows-installer.exe" -ArgumentList "/S" -Wait
+winget install --id=Valve.Steam -e -h
+winget install --id=LizardByte.Sunshine -e -h
 Start-Process -FilePath "C:\Temp\ParsecVDisplay-v0.45-setup.exe" -ArgumentList "/silent" -Wait
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 

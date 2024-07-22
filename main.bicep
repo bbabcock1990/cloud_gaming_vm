@@ -4,6 +4,7 @@ targetScope = 'subscription'
 // Parameters used during deployment
 param namePrefix string
 param region string
+param clientIP string
 
 // Deploy the resource group
 module resourceGroup 'Modules/resourceGroup.bicep' = {
@@ -24,18 +25,12 @@ module virtualNetwork 'Modules/virtualNetwork.bicep' = {
   }
 }
 
-//Get Client Public IP
-module clientPublicIP 'Modules/clientPublicIP.bicep' = {
-  scope: az.resourceGroup('${namePrefix}-rg')
-  name: '${namePrefix}-clientip'
-}
-
 // Deploy the network security group
 module networkSecurityGroup 'Modules/networkSecurityGroup.bicep' = {
   scope: az.resourceGroup('${namePrefix}-rg')
   name: '${namePrefix}-nsg'
   params: {
-    clientIP: clientPublicIP.outputs.clientIP
+    clientIP: clientIP
     name: namePrefix
   }
   dependsOn:[resourceGroup]

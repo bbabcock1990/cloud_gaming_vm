@@ -41,7 +41,7 @@ Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v6
 Expand-Archive -Path 'C:\Temp\config.zip' -DestinationPath 'C:\Temp'
 
 # Copy the extracted files to the destination folder, overwriting existing files
-Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force
+Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config' -Recurse -Force
 
 # Extract and install the Virtual Audio Drivers
 Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'

@@ -39,7 +39,7 @@ Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v6
 # Extract the Virtual Audio Drivers
 Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'
 
-Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "/silent" -Wait
+Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
 
 # Extract the Sunshine config ZIP file
 Expand-Archive -Path 'C:\Temp\config.zip' -DestinationPath 'C:\Temp'

@@ -45,7 +45,7 @@ Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\confi
 
 # Extract and install the Virtual Audio Drivers
 Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'
-Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
+#Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
 
 # Restart the computer
 # Define the task name

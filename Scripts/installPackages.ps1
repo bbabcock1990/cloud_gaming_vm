@@ -1,7 +1,7 @@
 #This leverages the run command on the VM itself. 90 minute timeout.
 
-#Download Files
-#Speed up downloads by removing the "progress bars"
+# Download Files
+# Speed up downloads by removing the "progress bars"
 $ProgressPreference = 'SilentlyContinue'
 
 $urls = @(
@@ -31,15 +31,11 @@ foreach ($url in $urls) {
     Invoke-WebRequest -Uri $url -OutFile $filePath  
 }
 
+# Start the installs for the required client applications
 Start-Process -FilePath "C:\Temp\SteamSetup.exe" -ArgumentList "/S" -Wait
 Start-Process -FilePath "C:\Temp\sunshine-windows-installer.exe" -ArgumentList "/S" -Wait
 Start-Process -FilePath "C:\Temp\ParsecVDisplay-v0.45-setup.exe" -ArgumentList "/silent" -Wait
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
-
-# Extract the Virtual Audio Drivers
-Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'
-
-Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
 
 # Extract the Sunshine config ZIP file
 Expand-Archive -Path 'C:\Temp\config.zip' -DestinationPath 'C:\Temp'
@@ -47,4 +43,9 @@ Expand-Archive -Path 'C:\Temp\config.zip' -DestinationPath 'C:\Temp'
 # Copy the extracted files to the destination folder, overwriting existing files
 Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force
 
+# Extract and install the Virtual Audio Drivers
+Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp\VBCABLE_Driver_Pack43'
+Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
+
+# Restart the computer
 Restart-Computer -Force

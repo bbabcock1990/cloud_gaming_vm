@@ -119,4 +119,4 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
 // Outputs
 output vmId string = vm.id 
 output vmName string = vm.name
-output publicIP string = publicIPAddress.properties.ipAddress
+//output publicIP string = publicIPAddress.properties.ipAddress

@@ -48,4 +48,17 @@ Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Te
 Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "-i" -Wait
 
 # Restart the computer
-Restart-Computer -Force
+# Define the task name
+$taskName = "ScheduledReboot"
+
+# Define the action to reboot the computer
+$action = New-ScheduledTaskAction -Execute "shutdown.exe" -Argument "/r /f /t 0"
+
+# Define the trigger to start 1 minute after the script ends
+$trigger = New-ScheduledTaskTrigger -Once -At ((Get-Date).AddMinutes(1))
+
+# Register the scheduled task
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskName -Description "Reboots the computer 1 minute after the script ends" -User "SYSTEM" -RunLevel Highest
+
+# Confirm the task has been created
+Write-Output "Scheduled a reboot 1 minute after the script ends."

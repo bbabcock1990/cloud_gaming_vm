@@ -36,9 +36,13 @@ Start-Process -FilePath "C:\Temp\sunshine-windows-installer.exe" -ArgumentList "
 Start-Process -FilePath "C:\Temp\ParsecVDisplay-v0.45-setup.exe" -ArgumentList "/silent" -Wait
 Start-Process -FilePath "C:\Temp\amd-software-cloud-edition-23.q3-azure-ngads-v620.exe" -ArgumentList "-Install" -Wait
 
+# Extract the Virtual Audio Drivers
+Expand-Archive -Path 'C:\Temp\VBCABLE_Driver_Pack43.zip' -DestinationPath 'C:\Temp'
+
+Start-Process -FilePath 'C:\Temp\VBCABLE_Driver_Pack43\VBCABLE_Setup_x64.exe' -ArgumentList "/silent" -Wait
+
 # Extract the Sunshine config ZIP file
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory('C:\Temp\config.zip', 'C:\Temp') #Need to fix.
+Expand-Archive -Path 'C:\Temp\config.zip' -DestinationPath 'C:\Temp'
 
 # Copy the extracted files to the destination folder, overwriting existing files
 Copy-Item -Path "C:\Temp\config\*" -Destination 'C:\Program Files\Sunshine\config\' -Recurse -Force

@@ -57,3 +57,4 @@ module virtualMachine 'Modules/virtualMachine.bicep' = {
 }
 
 // Outputs
+output publicIP string = virtualMachine.outputs.publicIP

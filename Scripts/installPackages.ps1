@@ -28,7 +28,7 @@ foreach ($url in $urls) {
     # Define the full path to the downloaded file
     $filePath = Join-Path -Path $downloadDir -ChildPath $fileName
     # Download the file
-    Invoke-WebRequest -Uri $url -OutFile $filePath  
+    Invoke-WebRequest -Uri $url -OutFile $filePath
 }
 
 # Start the installs for the required client applications

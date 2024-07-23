@@ -1,0 +1,456 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.29.45.22436",
+      "templateHash": "5627903078689750312"
+    }
+  },
+  "parameters": {
+    "namePrefix": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "clientIP": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}-rg', parameters('namePrefix'))]",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('region')]"
+          },
+          "name": {
+            "value": "[parameters('namePrefix')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.29.45.22436",
+              "templateHash": "16083617733288229522"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Resources/resourceGroups",
+              "apiVersion": "2024-03-01",
+              "name": "[format('{0}-rg', parameters('name'))]",
+              "location": "[parameters('location')]"
+            }
+          ],
+          "outputs": {
+            "resourceGroupId": {
+              "type": "string",
+              "value": "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-rg', parameters('name')))]"
+            },
+            "resourceGroupName": {
+              "type": "string",
+              "value": "[format('{0}-rg', parameters('name'))]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}-vnet', parameters('namePrefix'))]",
+      "resourceGroup": "[format('{0}-rg', parameters('namePrefix'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "[parameters('namePrefix')]"
+          },
+          "nsg": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-rg', parameters('namePrefix'))), 'Microsoft.Resources/deployments', format('{0}-nsg', parameters('namePrefix'))), '2022-09-01').outputs.nsgId.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.29.45.22436",
+              "templateHash": "8639012896436602312"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "nsg": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/virtualNetworks",
+              "apiVersion": "2023-11-01",
+              "name": "[format('{0}-vnet', parameters('name'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "addressSpace": {
+                  "addressPrefixes": [
+                    "10.0.0.0/24"
+                  ]
+                },
+                "subnets": [
+                  {
+                    "name": "[format('{0}-subnet', parameters('name'))]",
+                    "properties": {
+                      "addressPrefix": "10.0.0.0/24",
+                      "networkSecurityGroup": {
+                        "id": "[parameters('nsg')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "virtualNetworkId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/virtualNetworks', format('{0}-vnet', parameters('name')))]"
+            },
+            "virtualNetworkName": {
+              "type": "string",
+              "value": "[format('{0}-vnet', parameters('name'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-rg', parameters('namePrefix'))), 'Microsoft.Resources/deployments', format('{0}-nsg', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}-nsg', parameters('namePrefix'))]",
+      "resourceGroup": "[format('{0}-rg', parameters('namePrefix'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "clientIP": {
+            "value": "[parameters('clientIP')]"
+          },
+          "name": {
+            "value": "[parameters('namePrefix')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.29.45.22436",
+              "templateHash": "4574128189320090153"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string"
+            },
+            "clientIP": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkSecurityGroups",
+              "apiVersion": "2023-11-01",
+              "name": "[format('{0}-nsg', parameters('name'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "securityRules": [
+                  {
+                    "name": "MyClientIP",
+                    "properties": {
+                      "access": "allow",
+                      "description": "allow-my-client-ip",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "direction": "Inbound",
+                      "priority": 100,
+                      "protocol": "*",
+                      "sourceAddressPrefix": "[parameters('clientIP')]",
+                      "sourcePortRange": "*"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "nsgId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/networkSecurityGroups', format('{0}-nsg', parameters('name')))]"
+            },
+            "nsgName": {
+              "type": "string",
+              "value": "[format('{0}-nsg', parameters('name'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-rg', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}-vm', parameters('namePrefix'))]",
+      "resourceGroup": "[format('{0}-rg', parameters('namePrefix'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "name": {
+            "value": "[parameters('namePrefix')]"
+          },
+          "resourceGroup": {
+            "value": "[format('{0}-rg', parameters('namePrefix'))]"
+          },
+          "subnetName": {
+            "value": "[format('{0}-subnet', parameters('namePrefix'))]"
+          },
+          "vnetName": {
+            "value": "[format('{0}-vnet', parameters('namePrefix'))]"
+          },
+          "adminPassword": {
+            "value": "Westworld2024!"
+          },
+          "adminUsername": {
+            "value": "localadmin"
+          },
+          "size": {
+            "value": "Standard_NG8ads_V620_v1"
+          },
+          "windowsOSVersion": {
+            "value": "win11-22h2-pro"
+          },
+          "imagePublisher": {
+            "value": "microsoftwindowsdesktop"
+          },
+          "imageOffer": {
+            "value": "windows-11"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.29.45.22436",
+              "templateHash": "9498832678533936445"
+            }
+          },
+          "parameters": {
+            "vnetName": {
+              "type": "string"
+            },
+            "subnetName": {
+              "type": "string"
+            },
+            "resourceGroup": {
+              "type": "string"
+            },
+            "imagePublisher": {
+              "type": "string"
+            },
+            "imageOffer": {
+              "type": "string"
+            },
+            "windowsOSVersion": {
+              "type": "string"
+            },
+            "size": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "adminUsername": {
+              "type": "string"
+            },
+            "adminPassword": {
+              "type": "securestring"
+            }
+          },
+          "variables": {
+            "subnetId": "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "apiVersion": "2023-11-01",
+              "name": "[format('{0}-pip', parameters('name'))]",
+              "location": "[resourceGroup().location]",
+              "sku": {
+                "name": "Basic"
+              },
+              "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+              }
+            },
+            {
+              "type": "Microsoft.Network/networkInterfaces",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}-nic', parameters('name'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipconfig1",
+                    "properties": {
+                      "privateIPAllocationMethod": "Dynamic",
+                      "subnet": {
+                        "id": "[variables('subnetId')]"
+                      },
+                      "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-pip', parameters('name')))]"
+                      }
+                    }
+                  }
+                ],
+                "enableAcceleratedNetworking": true
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-pip', parameters('name')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}-vm', parameters('name'))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "hardwareProfile": {
+                  "vmSize": "[parameters('size')]"
+                },
+                "osProfile": {
+                  "computerName": "[parameters('name')]",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                  "imageReference": {
+                    "publisher": "[parameters('imagePublisher')]",
+                    "offer": "[parameters('imageOffer')]",
+                    "sku": "[parameters('windowsOSVersion')]",
+                    "version": "latest"
+                  },
+                  "osDisk": {
+                    "createOption": "FromImage",
+                    "name": "[format('{0}-osdisk', parameters('name'))]",
+                    "diffDiskSettings": {
+                      "option": "Local",
+                      "placement": "ResourceDisk"
+                    },
+                    "caching": "ReadOnly"
+                  }
+                },
+                "networkProfile": {
+                  "networkInterfaces": [
+                    {
+                      "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('name')))]"
+                    }
+                  ]
+                },
+                "diagnosticsProfile": {
+                  "bootDiagnostics": {
+                    "enabled": true
+                  }
+                },
+                "licenseType": "Windows_Client",
+                "priority": "Spot",
+                "evictionPolicy": "Delete",
+                "billingProfile": {
+                  "maxPrice": -1
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('name')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "apiVersion": "2024-03-01",
+              "name": "[format('{0}/{1}', format('{0}-vm', parameters('name')), format('{0}-script-deployment', parameters('name')))]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "fileUris": [
+                    "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/installPackages.ps1"
+                  ],
+                  "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File installPackages.ps1"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-vm', parameters('name')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "vmId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Compute/virtualMachines', format('{0}-vm', parameters('name')))]"
+            },
+            "vmName": {
+              "type": "string",
+              "value": "[format('{0}-vm', parameters('name'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-rg', parameters('namePrefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-rg', parameters('namePrefix'))), 'Microsoft.Resources/deployments', format('{0}-vnet', parameters('namePrefix')))]"
+      ]
+    }
+  ]
+}

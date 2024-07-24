@@ -2,9 +2,12 @@
 targetScope = 'subscription'
 
 // Parameters used during deployment
-param namePrefix string
-param region string
-param clientIP string
+@description('Prfix name of your Gaming VM')
+param namePrefix string = 'baa-game'
+@description('Azure region where your Gaming VM will be deployed')
+param region string = 'eastus2'
+@description('The public IP of your Moonlight client')
+param clientIP string = 'X.X.X.X - Replace Me'
 
 // Deploy the resource group
 module resourceGroup 'Modules/resourceGroup.bicep' = {

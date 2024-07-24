@@ -27,8 +27,10 @@ This project provides a deployment setup for a cloud gaming virtual machine (VM)
     ```
 
 2. **Deploy the VM**:
+    
     Option 1:
-    - Run the deployment by selecting the "Deploy to Azure" Button
+    - Run the deployment by selecting the "Deploy to Azure" Button.
+    
     [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbbabcock1990%2Fcloud_gaming_vm%2Fmain%2Fmain.json)
    
    Option 2:

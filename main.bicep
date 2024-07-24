@@ -2,7 +2,7 @@
 targetScope = 'subscription'
 
 // Parameters used during deployment
-@description('Prfix name of your Gaming VM')
+@description('Prefix name of your Gaming VM')
 param namePrefix string = 'baa-game'
 @description('Azure region where your Gaming VM will be deployed')
 param region string = 'eastus2'

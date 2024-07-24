@@ -4,19 +4,31 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.45.22436",
-      "templateHash": "5627903078689750312"
+      "version": "0.29.47.4906",
+      "templateHash": "17755277040378328092"
     }
   },
   "parameters": {
     "namePrefix": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "baa-game",
+      "metadata": {
+        "description": "Prfix name of your Gaming VM"
+      }
     },
     "region": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "eastus2",
+      "metadata": {
+        "description": "Azure region where your Gaming VM will be deployed"
+      }
     },
     "clientIP": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "X.X.X.X - Replace Me",
+      "metadata": {
+        "description": "The public IP of your Moonlight client"
+      }
     }
   },
   "resources": [
@@ -44,8 +56,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.29.45.22436",
-              "templateHash": "16083617733288229522"
+              "version": "0.29.47.4906",
+              "templateHash": "1098230301315153004"
             }
           },
           "parameters": {
@@ -101,8 +113,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.29.45.22436",
-              "templateHash": "8639012896436602312"
+              "version": "0.29.47.4906",
+              "templateHash": "10921602536619156447"
             }
           },
           "parameters": {
@@ -179,8 +191,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.29.45.22436",
-              "templateHash": "4574128189320090153"
+              "version": "0.29.47.4906",
+              "templateHash": "3823710811828778230"
             }
           },
           "parameters": {
@@ -281,8 +293,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.29.45.22436",
-              "templateHash": "9498832678533936445"
+              "version": "0.29.47.4906",
+              "templateHash": "7112107702829354530"
             }
           },
           "parameters": {

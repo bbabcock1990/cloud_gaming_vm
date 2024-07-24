@@ -1,6 +1,6 @@
 # Cloud Gaming VM Deployment
 
-This project provides a setup for deploying a cloud gaming virtual machine (VM) on Azure. The deployment leverages Azure infrastructure for scalable and high-performance gaming. 
+This project provides a setup for deploying a cloud gaming virtual machine (VM) on Azure. The deployment leverages Azure infrastructure for scalable and high-performance gaming. Game streaming is faciliated via [Sunshine](https://docs.lizardbyte.dev/projects/sunshine/en/latest/about/overview.html) as the Game Server and [Moonlight](https://moonlight-stream.org/) as the Game Client.
 
 ## Table of Contents
 
@@ -8,7 +8,6 @@ This project provides a setup for deploying a cloud gaming virtual machine (VM) 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-  - [Clone the Repository](#clone-the-repository)
   - [Deploy the VM](#deploy-the-vm)
     - [Option 1: Deploy to Azure Button](#option-1-deploy-to-azure-button)
     - [Option 2: Azure CLI](#option-2-azure-cli)
@@ -32,6 +31,11 @@ This SKU by default is a very expense SKU and gaming on any Cloud platform can b
 - [Empheral Disk](https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks) are used (Empheral disk are at no cost in Azure and offer better performance)
     - The downside here is that data on the disks are not persistent. Any shutdown or removal of the VM will cause data loss.
 
+The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script that accomplishes the following:
+- Blocks inbound access to the VM to the Public IP of your Moonlight client. No other inbound access is allowed.
+- Installs Steam Client
+- Installs Sunshine Server Client
+- Installs Parsec Virtual Display Driver (This provides a 60hz refresh rate virtual display)
 
 ## Features
 
@@ -45,18 +49,10 @@ This SKU by default is a very expense SKU and gaming on any Cloud platform can b
 - Total Regional Spot Quotas Enabled for your region/Azure VM Size
 ![SpotImage](./ReadMe%20Files/Spot%20Request.png)
 - Basic knowledge of Azure services
-- Familiarity with Bicep and PowerShell
+- Familiarity with Azure Portal, Azure Bicep and PowerShell
+- A Moonlight Client
 
 ## Getting Started
-
-### Clone the Repository
-
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/bbabcock1990/cloud_gaming_vm.git
-    cd cloud_gaming_vm
-    ```
 
 ### Deploy the VM
 
@@ -72,8 +68,15 @@ This SKU by default is a very expense SKU and gaming on any Cloud platform can b
 
 #### Option 2: Azure CLI
 
-1. Ensure you have the Azure CLI installed and logged in.
-2. Run the deployment script:
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/bbabcock1990/cloud_gaming_vm.git
+    cd cloud_gaming_vm
+    ```
+
+2. Ensure you have the Azure CLI installed and logged in.
+3. Run the deployment script:
 
     ```bash
     az deployment group create --resource-group <your-resource-group> --template-file main.bicep --parameters @main.bicepparam

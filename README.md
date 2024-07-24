@@ -30,7 +30,7 @@ This project provides a deployment setup for a cloud gaming virtual machine (VM)
     
     Option 1:
     - Run the deployment by selecting the "Deploy to Azure" Button.
-    
+
     [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbbabcock1990%2Fcloud_gaming_vm%2Fmain%2Fmain.json)
    
    Option 2:
@@ -45,7 +45,7 @@ This project provides a deployment setup for a cloud gaming virtual machine (VM)
 - **Modules**: Contains reusable Bicep modules.
 - **Scripts**: PowerShell scripts for various deployment tasks.
 - **main.bicep**: Main Bicep template for VM deployment.
-- **main.bicepparam**: Parameter file for the Bicep template.
+- **main.json**: Main ARM template for VM deployment (Portal).
 
 ## License
 

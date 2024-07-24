@@ -30,6 +30,11 @@ This SKU by default is a very expense SKU and gaming on any Cloud platform can b
     - No downside here. This provide fast downloads/uploads.
 - [Empheral Disk](https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks) are used (Empheral disk are at no cost in Azure and offer better performance)
     - The downside here is that data on the disks are not persistent. Any shutdown or removal of the VM will cause data loss.
+- Internet Cost includes Ingress Charges for Azure. Outbound charges or Egress includes 100 GB at no cost.
+
+The total cost of this Gaming VM to run for 5 hours is around ~1.2$
+
+![VM Cost](./ReadMe%20Files/VM%20Cost.png)
 
 The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script that accomplishes the following:
 - Blocks inbound access to the VM to the Public IP of your Moonlight client. No other inbound access is allowed.

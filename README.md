@@ -1,6 +1,8 @@
-# Cloud Gaming VM Deployment
+# An Azure Cloud Gaming VM
 
 This project provides a setup for deploying a cloud gaming virtual machine (VM) on Azure. The deployment leverages Azure infrastructure for scalable and high-performance gaming. Game streaming is faciliated via [Sunshine](https://docs.lizardbyte.dev/projects/sunshine/en/latest/about/overview.html) as the Game Server and [Moonlight](https://moonlight-stream.org/) as the Game Client.
+
+While there a ton of cloud gaming servies already out there, myself using Geforce NOW, I find that not all games are supported on these platforms. This solution allows for a quick spin up of a cost-effective cloud gaming virtual machine that provides full desktop access, with Steam pre-installed, allowing you to install or play any game within your library.
 
 ## Table of Contents
 
@@ -30,7 +32,7 @@ This SKU by default is a very expense SKU and gaming on any Cloud platform can b
     - No downside here. This provide fast downloads/uploads.
 - [Empheral Disk](https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks) are used (Empheral disk are at no cost in Azure and offer better performance)
     - The downside here is that data on the disks are not persistent. Any shutdown or removal of the VM will cause data loss.
-- Internet Cost includes Ingress Charges for Azure. Outbound charges or Egress includes 100 GB at no cost.
+- [Internet Cost](https://azure.microsoft.com/en-us/pricing/details/bandwidth/) includes Ingress Charges for Azure. Outbound Egress charges includes 100 GB at no cost. (.087 cents per GB after 100 GB.)
 
 The total cost of this Gaming VM to run for 5 hours is around ~1.2$
 
@@ -69,7 +71,7 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
 
 2. Fill out the Subscription, Deployment Region, Name-Prefix, VM Region, and your Moonlight Client Public IP:
 ![PortalImage](./ReadMe%20Files/Portal%20Deployment.png)
-3. Hit Deploy
+3. Hit Review and Create --> Deploy
 
 #### Option 2: Azure CLI
 
@@ -80,7 +82,7 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
     cd cloud_gaming_vm
     ```
 
-2. Ensure you have the Azure CLI installed and logged in.
+2. Ensure you have the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/what-is-azure-cli) installed and logged in.
 3. Run the deployment script:
 
     ```bash

@@ -50,7 +50,7 @@ module virtualMachine 'Modules/virtualMachine.bicep' = {
     vnetName: virtualNetwork.name
     adminPassword: 'Westworld2024!' //Need to address security of plaintext password
     adminUsername: 'localadmin'
-    size: 'Standard_NG8ads_V620_v1'//'Standard_NG8ads_V620_v1'
+    size: 'Standard_NV4as_v4'//'Standard_NG8ads_V620_v1'
     windowsOSVersion: 'win11-22h2-pro'
     imagePublisher: 'microsoftwindowsdesktop'
     imageOffer: 'windows-11'

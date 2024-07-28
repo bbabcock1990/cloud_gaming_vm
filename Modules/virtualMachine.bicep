@@ -55,6 +55,9 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-06-01' = {
     hardwareProfile: {
       vmSize: size
     }
+    proximityPlacementGroup: {
+      id: proximityGroup.id
+    }
     osProfile: {
       computerName: name
       adminUsername: adminUsername
@@ -114,6 +117,11 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
       commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File installPackages.ps1'
     }
   }
+}
+
+resource proximityGroup 'Microsoft.Compute/proximityPlacementGroups@2024-03-01' = {
+  name: '${name}-proximitygroup-deployment'
+  location: az.resourceGroup().location
 }
 
 // Outputs

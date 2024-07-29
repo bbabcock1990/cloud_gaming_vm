@@ -6,6 +6,13 @@ targetScope = 'subscription'
 param namePrefix string = 'baa-game'
 @description('Azure region where your Gaming VM will be deployed')
 param region string = 'eastus2'
+@description('Your GPU Gaming VM Size')
+param vmSize string = 'Standard_NV32as_v4'
+@description('Your Gaming VM Username')
+param vmUsername string = 'LocalAdmin'
+@description('The Gaming VM Password')
+@secure()
+param vmPassword string
 @description('The public IP of your Moonlight client')
 param clientIP string = 'X.X.X.X - Replace Me'
 
@@ -48,14 +55,11 @@ module virtualMachine 'Modules/virtualMachine.bicep' = {
     resourceGroup: resourceGroup.name
     subnetName: '${namePrefix}-subnet'
     vnetName: virtualNetwork.name
-    adminPassword: 'Westworld2024!' //Need to address security of plaintext password
-    adminUsername: 'localadmin'
-    size: 'Standard_NV32as_v4'//'Standard_NG8ads_V620_v1'
+    adminPassword: vmPassword
+    adminUsername: vmUsername
+    size: vmSize
     windowsOSVersion: 'win11-22h2-pro'
     imagePublisher: 'microsoftwindowsdesktop'
     imageOffer: 'windows-11'
   }
 }
-
-// Outputs
-//output publicIP string = virtualMachine.outputs.publicIP

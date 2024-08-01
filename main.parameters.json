@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": {
+      "value": "baa-game"
+    },
+    "region": {
+      "value": "northcentralus"
+    },
+    "vmSize": {
+      "value": "Standard_NV8as_v4"
+    },
+    "vmUsername": {
+      "value": "localadmin"
+    },
+    "vmPassword": {
+      "value": "Westworld2024!!"
+    },
+    "clientIP": {
+      "value": "208.38.230.11"
+    }
+  }
+}

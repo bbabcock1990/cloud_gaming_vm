@@ -10,7 +10,8 @@ $urls = @(
 "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",
 "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
 "https://download.microsoft.com/download/0/8/1/081db0c3-d2c0-44ae-be45-90a63610b16e/AMD-Azure-NVv4-Driver-23Q3-win10-win11.exe",
-"https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip"
+"https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip",
+"https://www.tightvnc.com/download/2.8.84/tightvnc-2.8.84-gpl-setup-64bit.msi"
 )
 
 #https://download.microsoft.com/download/0/8/1/081db0c3-d2c0-44ae-be45-90a63610b16e/AMD-Azure-NVv4-Driver-23Q3-win10-win11.exe

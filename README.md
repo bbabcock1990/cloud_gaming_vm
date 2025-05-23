@@ -113,7 +113,7 @@ This project now includes a web dashboard to monitor active cloud gaming VMs and
 
 **Technology Stack:**
 *   Frontend: Azure Static Web Apps (HTML, CSS, JavaScript)
-*   Backend: Azure Functions (Python)
+*   Backend: Azure Functions (Python), deployed as managed functions within the Azure Static Web App.
 *   Authentication: Azure Static Web Apps built-in Azure AD authentication.
 
 **Deployment:**

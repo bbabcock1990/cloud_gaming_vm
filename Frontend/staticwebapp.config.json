@@ -1,0 +1,25 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "rewrite": "/api/*"
+    }
+  ],
+  "auth": {
+    "rolesSource": "/api/GetRoles"
+  },
+  "networking": {
+    "allowedIpRanges": ["Public"]
+  },
+  "globalHeaders": {
+    "Content-Security-Policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
+  },
+  "platform": {
+    "apiRuntime": "python",
+    "apiBuildCommand": "pip install -r requirements.txt",
+    "appBuildCommand": null
+  }
+}

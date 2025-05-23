@@ -40,9 +40,13 @@ The total cost of this Gaming VM to run for 5 hours is around ~1.2$
 
 The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script that accomplishes the following:
 - Blocks inbound access to the VM to the Public IP of your Moonlight client. No other inbound access is allowed.
-- Installs Steam Client
-- Installs Sunshine Server Client
+- Installs Steam Client (optional, controllable via `installSteam` parameter)
+- Installs Sunshine Server Client (optional, controllable via `installSunshine` parameter)
 - Installs Parsec Virtual Display Driver (This provides a 60hz refresh rate virtual display)
+
+### Security Enhancements
+- Downloads are now managed in a user-specific temporary directory instead of the global `C:\Temp`.
+- The system will automatically schedule a reboot 1 minute after the script completes installations to ensure all changes are applied.
 
 ## Features
 
@@ -69,9 +73,10 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbbabcock1990%2Fcloud_gaming_vm%2Fmain%2Fmain.json)
 
-2. Fill out the Subscription, Deployment Region, Name-Prefix, VM Region, and your Moonlight Client Public IP:
+2. Fill out the Subscription, Deployment Region, Name-Prefix, VM Region, and your Moonlight Client Public IP.
+3. You can also customize the installation of Steam and Sunshine using the `Install Steam` and `Install Sunshine` parameters, which both default to `true` (install). Set them to `false` if you wish to skip their installation.
 ![PortalImage](./ReadMe%20Files/Portal%20Deployment.png)
-3. Hit Review and Create --> Deploy
+4. Hit Review and Create --> Deploy
 
 #### Option 2: Azure CLI
 
@@ -85,9 +90,34 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
 2. Ensure you have the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/what-is-azure-cli) installed and logged in.
 3. Run the deployment script:
 
-    ```bash
     az deployment group create --resource-group <your-resource-group> --template-file main.bicep --parameters @main.bicepparam
     ```
+    To customize the installation of Steam or Sunshine, you can modify the `main.bicepparam` file or override parameters directly in the command line. For example, to deploy without Steam:
+    ```bash
+    az deployment group create --resource-group <your-resource-group> --template-file main.bicep --parameters installSteam=false # other parameters from main.bicepparam or specified here
+    ```
+    Similarly, for no Sunshine:
+    ```bash
+    az deployment group create --resource-group <your-resource-group> --template-file main.bicep --parameters installSunshine=false
+    ```
+
+## Web Dashboard for Session Management
+
+This project now includes a web dashboard to monitor active cloud gaming VMs and manage their lifecycle (creation and deletion).
+
+**Features:**
+*   List active game sessions deployed via this solution.
+*   Create new game sessions using the underlying Bicep templates.
+*   Delete existing game sessions (which removes the associated Azure Resource Group).
+*   Secure login via Azure Active Directory.
+
+**Technology Stack:**
+*   Frontend: Azure Static Web Apps (HTML, CSS, JavaScript)
+*   Backend: Azure Functions (Python)
+*   Authentication: Azure Static Web Apps built-in Azure AD authentication.
+
+**Deployment:**
+For detailed instructions on deploying and configuring the web dashboard and its backend components, please see the [Deployment Guide](DEPLOYMENT_GUIDE.md).
 
 ## Repository Structure
 
@@ -100,9 +130,18 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
 
 This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for more details.
 
+## Testing
+
+This project includes tests to help ensure reliability and maintainability:
+
+- **Unit Tests**: The PowerShell script `Scripts/installPackages.ps1` has associated unit tests written using [Pester](https_pester.dev/), the standard testing framework for PowerShell. These tests mock external dependencies and verify the script's logic, parameter handling, and conditional operations. You can find the tests in `Scripts/installPackages.Pester.ps1`.
+- **Integration Testing Strategy**: An integration testing strategy for the Bicep templates has been outlined. This strategy involves deploying the templates to Azure and verifying the created resources and their configuration using Azure CLI or Azure PowerShell. The goal is to ensure the end-to-end deployment works as expected.
+
+Contributions to enhancing and expanding these tests are highly encouraged.
+
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request. Ensure that your changes are covered by existing tests or include new tests as appropriate.
 
 ## Contact
 

@@ -101,6 +101,24 @@ The deployment deploys a Windows 11 22H2 VM on Azure and runs a install script t
     az deployment group create --resource-group <your-resource-group> --template-file main.bicep --parameters installSunshine=false
     ```
 
+## Web Dashboard for Session Management
+
+This project now includes a web dashboard to monitor active cloud gaming VMs and manage their lifecycle (creation and deletion).
+
+**Features:**
+*   List active game sessions deployed via this solution.
+*   Create new game sessions using the underlying Bicep templates.
+*   Delete existing game sessions (which removes the associated Azure Resource Group).
+*   Secure login via Azure Active Directory.
+
+**Technology Stack:**
+*   Frontend: Azure Static Web Apps (HTML, CSS, JavaScript)
+*   Backend: Azure Functions (Python)
+*   Authentication: Azure Static Web Apps built-in Azure AD authentication.
+
+**Deployment:**
+For detailed instructions on deploying and configuring the web dashboard and its backend components, please see the [Deployment Guide](DEPLOYMENT_GUIDE.md).
+
 ## Repository Structure
 
 - **Modules**: Reusable Bicep modules.

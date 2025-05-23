@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AZURE_TENANT_ID": "YOUR_TENANT_ID",
+    "AZURE_CLIENT_ID": "YOUR_CLIENT_ID_FOR_MANAGED_IDENTITY",
+    "AZURE_CLIENT_SECRET": "YOUR_CLIENT_SECRET_FOR_MANAGED_IDENTITY",
+    "AZURE_SUBSCRIPTION_ID": "YOUR_SUBSCRIPTION_ID"
+  },
+  "Host": {
+    "CORS": "*"
+  }
+}

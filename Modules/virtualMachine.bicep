@@ -10,6 +10,8 @@ param name string
 param adminUsername string
 @secure()
 param adminPassword  string
+param installSteam bool
+param installSunshine bool
 
 // Variables
 var subnetId = resourceId(resourceGroup,'Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
@@ -114,7 +116,7 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
       fileUris: [
         'https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/installPackages.ps1'
       ]
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File installPackages.ps1'
+      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File installPackages.ps1 -installSteam ${installSteam} -installSunshine ${installSunshine}'
     }
   }
 }

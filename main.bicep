@@ -15,6 +15,10 @@ param vmUsername string = 'LocalAdmin'
 param vmPassword string
 @description('The public IP of your Moonlight client')
 param clientIP string = 'X.X.X.X - Replace Me'
+@description('Install Steam on the Gaming VM')
+param installSteam bool = true
+@description('Install Sunshine on the Gaming VM')
+param installSunshine bool = true
 
 // Deploy the resource group
 module resourceGroup 'Modules/resourceGroup.bicep' = {
@@ -61,5 +65,7 @@ module virtualMachine 'Modules/virtualMachine.bicep' = {
     windowsOSVersion: 'win11-22h2-pro'
     imagePublisher: 'microsoftwindowsdesktop'
     imageOffer: 'windows-11'
+    installSteam: installSteam
+    installSunshine: installSunshine
   }
 }

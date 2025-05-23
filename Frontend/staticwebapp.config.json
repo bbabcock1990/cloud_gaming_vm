@@ -11,9 +11,6 @@
   "auth": {
     "rolesSource": "/api/GetRoles"
   },
-  "networking": {
-    "allowedIpRanges": ["Public"]
-  },
   "globalHeaders": {
     "Content-Security-Policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
   },

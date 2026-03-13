@@ -25,6 +25,19 @@ Describe "installPackages.ps1 Script Tests" -Tags 'Unit' {
 
         # Mock external process calls
         Mock Invoke-WebRequest { param($Uri, $OutFile) Write-Output "Mocked Invoke-WebRequest: $Uri to $OutFile" } -ModuleName $ScriptPath
+        Mock Invoke-RestMethod {
+            param($Uri)
+            if ($Uri -like "*api.github.com/repos/nomi-san/parsec-vdd*") {
+                return @{
+                    assets = @(
+                        @{
+                            name = "ParsecVDisplay-v0.45-setup.exe"
+                            browser_download_url = "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe"
+                        }
+                    )
+                }
+            }
+        } -ModuleName $ScriptPath
         Mock Start-Process { Write-Output "Mocked Start-Process: $($_.FilePath) with $($_.ArgumentList)" } -ModuleName $ScriptPath
         Mock msiexec.exe { Write-Output "Mocked msiexec.exe with $($_.ArgumentList)"} # For MSI installs
 
@@ -83,8 +96,8 @@ Describe "installPackages.ps1 Script Tests" -Tags 'Unit' {
         It "Should attempt to download common URLs" {
             . $ScriptPath
             Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*ParsecVDisplay*" } -ModuleName $ScriptPath
-            Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*AMD-Azure-NVv4-Driver*" } -ModuleName $ScriptPath
-            Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*VBCABLE_Driver_Pack43.zip*" } -ModuleName $ScriptPath
+            Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*NVv4*" } -ModuleName $ScriptPath
+            Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*VBCABLE_Driver_Pack45.zip*" } -ModuleName $ScriptPath
             Assert-MockCalled Invoke-WebRequest -ParameterFilter { $Uri -like "*tightvnc*.msi*" } -ModuleName $ScriptPath
         }
 

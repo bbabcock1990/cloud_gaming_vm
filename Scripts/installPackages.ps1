@@ -75,12 +75,28 @@ if (-not (Test-Path -Path $downloadDir)) {
     Write-Output "Download directory already exists: $downloadDir"
 }
 
+# Dynamically resolve the Parsec VDD download URL from GitHub API
+$parsecVddUrl = "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe" # Fallback (tag v0.45.1, asset named v0.45)
+try {
+    $parsecRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/nomi-san/parsec-vdd/releases/latest" -ErrorAction Stop
+    $parsecAsset = $parsecRelease.assets | Where-Object { $_.name -like "ParsecVDisplay*setup*.exe" } | Select-Object -First 1
+    if ($parsecAsset) {
+        $parsecVddUrl = $parsecAsset.browser_download_url
+        Write-Output "Resolved latest Parsec VDD download URL: $parsecVddUrl"
+    } else {
+        Write-Warning "Could not find setup asset in Parsec VDD latest release. Using fallback URL."
+    }
+} catch {
+    Write-Warning "Failed to query Parsec VDD latest release from GitHub API. Using fallback URL. Error: $($_.Exception.Message)"
+}
+$parsecVddFileName = [System.IO.Path]::GetFileName($parsecVddUrl)
+
 $commonUrls = @(
-    "https://github.com/nomi-san/parsec-vdd/releases/download/v0.45.1/ParsecVDisplay-v0.45-setup.exe",
+    $parsecVddUrl,
     "https://raw.githubusercontent.com/bbabcock1990/cloud_gaming_vm/main/Scripts/config.zip",
-    "https://download.microsoft.com/download/0/8/1/081db0c3-d2c0-44ae-be45-90a63610b16e/AMD-Azure-NVv4-Driver-23Q3-win10-win11.exe",
-    "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip",
-    "https://www.tightvnc.com/download/2.8.84/tightvnc-2.8.84-gpl-setup-64bit.msi"
+    "https://download.microsoft.com/download/b6338eb5-781d-4a0a-9aaa-fef7ca4de242/WHQL-AMD-Software-Cloud-Edition-23.10.18.20-Win10-Win11-NVv4-MR-4.1-Hotfix.exe",
+    "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack45.zip",
+    "https://www.tightvnc.com/download/2.8.85/tightvnc-2.8.85-gpl-setup-64bit.msi"
 )
 
 $steamUrl = "https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe"
@@ -106,11 +122,13 @@ foreach ($url in $allUrls) {
         Write-Output "Successfully downloaded $fileName."
 
         # Warning for files where checksum isn't pre-defined in this script
-        if ($fileName -in ("SteamSetup.exe", "sunshine-windows-installer.exe", "AMD-Azure-NVv4-Driver-23Q3-win10-win11.exe", "VBCABLE_Driver_Pack43.zip", "tightvnc-2.8.84-gpl-setup-64bit.msi", "ParsecVDisplay-v0.45-setup.exe", "config.zip")) {
+        $knownFileNames = @("SteamSetup.exe", "sunshine-windows-installer.exe", "WHQL-AMD-Software-Cloud-Edition-23.10.18.20-Win10-Win11-NVv4-MR-4.1-Hotfix.exe", "VBCABLE_Driver_Pack45.zip", "tightvnc-2.8.85-gpl-setup-64bit.msi", "config.zip")
+        if ($parsecVddFileName) { $knownFileNames += $parsecVddFileName }
+        if ($fileName -in $knownFileNames) {
             Write-Warning "Downloaded $fileName via HTTPS. Automatic checksum verification against a known hash is not performed by this script for this file. Ensure you trust the download source."
             # To implement checksum for a specific file, uncomment and adapt the Test-FileIntegrity example above.
-            # For example, for ParsecVDisplay:
-            # $parsecPath = Join-Path -Path $downloadDir -ChildPath "ParsecVDisplay-v0.45-setup.exe"
+            # For example, for ParsecVDD:
+            # $parsecPath = Join-Path -Path $downloadDir -ChildPath $parsecVddFileName
             # $parsecExpectedHash = "YOUR_PARSEC_SHA256_HASH_HERE" # Replace if you have it
             # if (-not (Test-FileIntegrity -FilePath $parsecPath -ExpectedHash $parsecExpectedHash)) { Write-Error "Parsec VDD checksum failed."; continue; }
         }
@@ -175,7 +193,7 @@ if ($installSunshine) {
     }
 }
 
-$parsecInstallerPath = Join-Path -Path $downloadDir -ChildPath "ParsecVDisplay-v0.45-setup.exe"
+$parsecInstallerPath = Join-Path -Path $downloadDir -ChildPath $parsecVddFileName
 if (Test-Path $parsecInstallerPath) {
     Write-Output "Installing Parsec Virtual Display Driver..."
     # Add Test-FileIntegrity call here if hash is known
@@ -189,7 +207,7 @@ if (Test-Path $parsecInstallerPath) {
     Write-Warning "Parsec Virtual Display Driver installer not found. Skipping installation."
 }
 
-$amdDriverPath = Join-Path -Path $downloadDir -ChildPath "AMD-Azure-NVv4-Driver-23Q3-win10-win11.exe"
+$amdDriverPath = Join-Path -Path $downloadDir -ChildPath "WHQL-AMD-Software-Cloud-Edition-23.10.18.20-Win10-Win11-NVv4-MR-4.1-Hotfix.exe"
 if (Test-Path $amdDriverPath) {
     Write-Output "Installing AMD GPU Drivers..."
     # Add Test-FileIntegrity call here if hash is known
@@ -203,15 +221,15 @@ if (Test-Path $amdDriverPath) {
     Write-Warning "AMD GPU Driver installer not found. Skipping installation."
 }
 
-$vbCableZipPath = Join-Path -Path $downloadDir -ChildPath "VBCABLE_Driver_Pack43.zip"
+$vbCableZipPath = Join-Path -Path $downloadDir -ChildPath "VBCABLE_Driver_Pack45.zip"
 if (Test-Path $vbCableZipPath) {
     Write-Output "Extracting Virtual Audio Drivers..."
     # Add Test-FileIntegrity call here if hash is known
     try {
-        Expand-Archive -Path $vbCableZipPath -DestinationPath "$downloadDir\VBCABLE_Driver_Pack43" -Force -ErrorAction Stop
+        Expand-Archive -Path $vbCableZipPath -DestinationPath "$downloadDir\VBCABLE_Driver_Pack45" -Force -ErrorAction Stop
         Write-Output "Virtual Audio Drivers extracted."
         # Installation of VBCABLE driver often requires interaction or specific silent flags not available.
-        # Write-Warning "VB-CABLE driver extracted. Manual installation of VBCABLE_Setup_x64.exe may be required from $downloadDir\VBCABLE_Driver_Pack43."
+        # Write-Warning "VB-CABLE driver extracted. Manual installation of VBCABLE_Setup_x64.exe may be required from $downloadDir\VBCABLE_Driver_Pack45."
     } catch {
         Write-Error "Failed to extract Virtual Audio Drivers. Error: $($_.Exception.Message)"
     }
@@ -220,7 +238,7 @@ if (Test-Path $vbCableZipPath) {
 }
 
 # TightVNC (Example of an MSI install)
-$tightVncPath = Join-Path -Path $downloadDir -ChildPath "tightvnc-2.8.84-gpl-setup-64bit.msi"
+$tightVncPath = Join-Path -Path $downloadDir -ChildPath "tightvnc-2.8.85-gpl-setup-64bit.msi"
 if (Test-Path $tightVncPath) {
     Write-Output "Installing TightVNC..."
     # Add Test-FileIntegrity call here if hash is known

@@ -55,7 +55,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             )
 
         # Optional parameters with defaults
-        vm_size = req_body.get('vmSize', 'Standard_NV32as_v4')
+        vm_size = req_body.get('vmSize', 'Standard_NG8ads_V620_v1')
         install_steam = req_body.get('installSteam', True)
         install_sunshine = req_body.get('installSunshine', True)
         

@@ -180,7 +180,7 @@ async function createDeployment() {
         region: regionInput.value,
         vmPassword: vmPasswordInput.value,
         clientIP: clientPublicIP,
-        vmSize: vmSizeInput.value || 'Standard_NV32as_v4', // Default if empty
+        vmSize: vmSizeInput.value || 'Standard_NG8ads_V620_v1', // Default if empty
         installSteam: installSteamInput.checked,
         installSunshine: installSunshineInput.checked
     };

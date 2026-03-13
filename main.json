@@ -339,10 +339,10 @@
               "name": "[format('{0}-pip', parameters('name'))]",
               "location": "[resourceGroup().location]",
               "sku": {
-                "name": "Basic"
+                "name": "Standard"
               },
               "properties": {
-                "publicIPAllocationMethod": "Dynamic"
+                "publicIPAllocationMethod": "Static"
               }
             },
             {

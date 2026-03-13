@@ -21,10 +21,10 @@ resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-11-01' = {
   name: '${name}-pip'
   location: az.resourceGroup().location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
   }
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
   }
 }
 

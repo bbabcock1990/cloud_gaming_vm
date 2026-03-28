@@ -7,7 +7,7 @@ param namePrefix string = 'baa-game'
 @description('Azure region where your Gaming VM will be deployed')
 param region string = 'eastus2'
 @description('Your GPU Gaming VM Size')
-param vmSize string = 'Standard_NV32as_v4'
+param vmSize string = 'Standard_NG8ads_V620_v1'
 @description('Your Gaming VM Username')
 param vmUsername string = 'LocalAdmin'
 @description('The Gaming VM Password')
